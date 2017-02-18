@@ -12,12 +12,11 @@
     <link rel="stylesheet" href="css/slider.css">
   </head>
   <body>
-    <section class="section">
-      <!-- <div class="container"> -->
+    <section id="app" class="section">
         <div class="columns">
-          <div class="column is-one-third">
+          <div id="create" class="column is-one-third">
             <h1 class="title">Create</h1>
-            <div class="card">
+            <div id="words" class="card">
               <header class="card-header">
                 <p class="card-header-title">1. Words</p>
               </header>
@@ -26,53 +25,53 @@
                   Enter the quiz words below
                   <p class="control">
                     <textarea
-                      class="textarea"
+                      class="textarea words-input"
                       placeholder="Enter words here, one on each line"></textarea>
                   </p>
                 </div>
               </div>
             </div>
-            <div class="card">
+            <div id="settings" class="card">
               <header class="card-header">
                 <p class="card-header-title">2. Settings</p>
               </header>
               <div class="card-content">
                 <div class="content">
                   <p>Tweak the settings to change the content of the quiz</p>
-                  <h4 class="title">Question types</h4>
-                  <p>Change which question types are included in the quiz</p>
-                  <p class="control">
-                    <label class="checkbox">
-                      <input type="checkbox">
-                      Word-to-definition
+                  <div class="question-types">
+                    <h4 class="title">Question types</h4>
+                    <p>
+                      Change which question types are included in the quiz.
+                      Adjust the slider to change the ratio of questions.
+                    </p>
+                    <div id="question-types-container">
+                    </div>
+                  </div>
+                  <div class="quiz-size">
+                    <h4 class="title">Quiz size</h4>
+                    <label class="label">
+                      Total number of questions: 50
                       [<a href="#">?</a>]
                     </label>
-                  </p>
-                  <p class="control">
-                    <label class="checkbox">
-                      <input type="checkbox">
-                      Definition-to-word
+                    <input
+                      class="slider"
+                      type="range" number
+                      min="0" max="100" step="1"
+                      value="50">
+                    <label class="label">
+                      Total number of words: 50 (out of 100)
                       [<a href="#">?</a>]
                     </label>
-                  </p>
-                  <p class="control">
-                    <label class="checkbox">
-                      <input type="checkbox">
-                      Example sentence
-                      [<a href="#">?</a>]
-                    </label>
-                  </p>
-                  <h4 class="title">Quiz size</h4>
-                  <label class="label">Number of questions</label>
-                  <!-- <input -->
-                  <!--   class="slider" -->
-                  <!--   type="range" number -->
-                  <!--   min="0" max="100" step="1" -->
-                  <!--   value="50"> -->
+                    <input
+                      class="slider"
+                      type="range" number
+                      min="0" max="100" step="1"
+                      value="50">
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="card">
+            <div id="export" class="card">
               <header class="card-header">
                 <p class="card-header-title">3. Export</p>
               </header>
@@ -95,9 +94,9 @@
               </footer>
             </div>
           </div>
-          <div class="column">
+          <div id="preview" class="column">
             <h1 class="title">Preview</h1>
-            <p>
+            <div id="preview">
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac placerat lacus. Phasellus egestas arcu vel efficitur semper. Duis vel vulputate odio. Suspendisse potenti. Pellentesque vestibulum elit nec diam finibus, vitae molestie mi consequat. Nullam at lorem et neque interdum lobortis. Pellentesque accumsan magna vel malesuada facilisis.
 
 Proin id tincidunt orci, ac posuere quam. Quisque vestibulum vulputate ex, ac placerat turpis laoreet eu. Sed vel urna sed erat scelerisque commodo quis ut ipsum. Proin et ante porttitor, luctus purus eget, sollicitudin dolor. Sed auctor elementum eros nec finibus. Suspendisse sed tempus nibh, sed suscipit odio. Nulla nec nisi nisi.
@@ -107,11 +106,25 @@ Ut pellentesque libero ut aliquam suscipit. Morbi hendrerit ligula ipsum, a pulv
 Proin accumsan consequat sapien, vitae feugiat augue interdum in. Curabitur porta urna facilisis ipsum vehicula cursus. Morbi elementum sodales quam, vitae vestibulum tellus bibendum vel. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean consequat non ante quis pellentesque. Ut id neque non ex gravida sagittis eget eu mi. Nam pulvinar justo vel ex rutrum, et maximus justo hendrerit. Sed a dui id enim tristique volutpat. Aliquam erat volutpat. Nulla et quam est. Mauris non libero vehicula, dictum lectus in, tincidunt quam. Praesent sodales eros ipsum, sed iaculis elit laoreet id. Pellentesque interdum aliquam consequat. Fusce consequat ex vitae tellus ullamcorper, nec pharetra lectus ultrices.
 
 Sed aliquet massa nisi, ac scelerisque lectus vestibulum sed. Etiam condimentum enim libero, non tristique elit commodo at. Aliquam aliquam risus et aliquam finibus. Sed congue magna ut urna venenatis ornare. Fusce placerat tincidunt libero, sit amet vulputate nibh accumsan vitae. Morbi rhoncus ligula in quam iaculis aliquet. Nullam sed hendrerit ex. Pellentesque eu consequat dui, vitae rutrum nibh. Vestibulum in molestie elit. Donec elit turpis, congue et lacus ac, mattis pretium ligula. Nullam in nibh nibh.
-            </p>
+            </div>
           </div>
         </div>
       <!-- </div> -->
     </section>
+    <script type="text/template" id="question-type-setting">
+      <p class="control">
+        <label class="checkbox">
+          <input type="checkbox">
+          <%= name %>
+          [<a class="help-button" href="#">?</a>]
+        </label>
+        <input
+          class="slider"
+          type="range" number
+          min="0" max="100" step="1"
+          value="50">
+      </p>
+    </script>
     <script src="vendor/js/underscore-min.js"></script>
     <script src="vendor/js/jquery-3.1.1.min.js"></script>
     <script src="vendor/js/backbone-min.js"></script>

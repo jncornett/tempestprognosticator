@@ -4,10 +4,13 @@ input[type=range].slider {
     -webkit-appearance: none;
     width: 100%;
     background: transparent;
+    padding: 0;
+    margin: 0;
 }
 
 input[type=range].slider::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
 }
 
 input[type=range].slider:focus {
@@ -24,15 +27,61 @@ input[type=range].slider::-ms-track {
 
 /* Now apply our styles to it */
 
-/* First for webkit/blink */
+/* background */
+input[type=range].slider {
+    background: #eee;
+
+    height: 10px;
+    border-radius: 5px;
+}
+
+/* handle */
 input[type=range].slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: 1px solid #000000;
-    height: 36px;
-    width: 16px;
-    border-radius: 3px;
-    background: #ffffff;
+    background: #aaa;
+
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     cursor: pointer;
-    margin-top: -14px;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    transition: background .15s ease-in-out;
+}
+
+input[type=range].slider::-webkit-slider-thumb:hover {
+    background: #00d1b2;
+    transition: background .15s ease-in-out;
+}
+
+input[type=range].slider::-webkit-slider-thumb:active {
+    background: #00d1b2;
+}
+
+input[type=range].slider::-moz-range-thumb {
+    background: #aaa;
+
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background .15s ease-in-out;
+}
+
+input[type=range].slider::-moz-range-thumb:hover {
+    background: #00d1b2;
+}
+
+input[type=range].slider::-moz-range-thumb:active {
+    background: #00d1b2;
+}
+
+/* Disabled */
+input[type=range].slider.disabled::-webkit-slider-thumb {
+    cursor: default;
+    appearance: none;
+    visibility: hidden;
+}
+
+input[type=range].slider.disabled::-moz-range-thumb {
+    cursor: default;
+    appearance: none;
+    visibility: hidden;
 }
