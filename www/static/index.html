@@ -1,9 +1,120 @@
 <!doctype HTML>
-<html>
-    <head>
-        <title>Tempest Prognosticator</title>
-    </head>
-    <body>
-        <h1>Welcome to Tempest Prognosticator</h1>
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tempest Prognosticator</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/css/bulma.min.css">
+    <link rel="stylesheet" href="css/slider.css">
+  </head>
+  <body>
+    <section class="section">
+      <!-- <div class="container"> -->
+        <div class="columns">
+          <div class="column is-one-third">
+            <h1 class="title">Create</h1>
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">1. Words</p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                  Enter the quiz words below
+                  <p class="control">
+                    <textarea
+                      class="textarea"
+                      placeholder="Enter words here, one on each line"></textarea>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">2. Settings</p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                  <p>Tweak the settings to change the content of the quiz</p>
+                  <h4 class="title">Question types</h4>
+                  <p>Change which question types are included in the quiz</p>
+                  <p class="control">
+                    <label class="checkbox">
+                      <input type="checkbox">
+                      Word-to-definition
+                      [<a href="#">?</a>]
+                    </label>
+                  </p>
+                  <p class="control">
+                    <label class="checkbox">
+                      <input type="checkbox">
+                      Definition-to-word
+                      [<a href="#">?</a>]
+                    </label>
+                  </p>
+                  <p class="control">
+                    <label class="checkbox">
+                      <input type="checkbox">
+                      Example sentence
+                      [<a href="#">?</a>]
+                    </label>
+                  </p>
+                  <h4 class="title">Quiz size</h4>
+                  <label class="label">Number of questions</label>
+                  <!-- <input -->
+                  <!--   class="slider" -->
+                  <!--   type="range" number -->
+                  <!--   min="0" max="100" step="1" -->
+                  <!--   value="50"> -->
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">3. Export</p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                  Export the quiz to a format of your choice
+                </div>
+                <p class="control">
+                  <span class="select">
+                    <select>
+                      <option>Document (RTF)</option>
+                      <option>Spreadsheet (CSV)</option>
+                      <option>Javascript (JSON)</option>
+                    </select>
+                  </span>
+                </p>
+              </div>
+              <footer class="card-footer">
+                <a class="card-footer-item">Download</a>
+              </footer>
+            </div>
+          </div>
+          <div class="column">
+            <h1 class="title">Preview</h1>
+            <p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac placerat lacus. Phasellus egestas arcu vel efficitur semper. Duis vel vulputate odio. Suspendisse potenti. Pellentesque vestibulum elit nec diam finibus, vitae molestie mi consequat. Nullam at lorem et neque interdum lobortis. Pellentesque accumsan magna vel malesuada facilisis.
+
+Proin id tincidunt orci, ac posuere quam. Quisque vestibulum vulputate ex, ac placerat turpis laoreet eu. Sed vel urna sed erat scelerisque commodo quis ut ipsum. Proin et ante porttitor, luctus purus eget, sollicitudin dolor. Sed auctor elementum eros nec finibus. Suspendisse sed tempus nibh, sed suscipit odio. Nulla nec nisi nisi.
+
+Ut pellentesque libero ut aliquam suscipit. Morbi hendrerit ligula ipsum, a pulvinar massa cursus porta. Nulla tempor posuere velit id porta. Praesent elementum scelerisque est. Suspendisse viverra porta pretium. Curabitur eu malesuada mi. Duis tellus dui, fringilla nec diam eget, gravida dictum ex. Aliquam erat volutpat. Donec eget nunc at est laoreet consectetur et quis tortor. Proin quis ante dictum, pretium arcu eu, dictum erat. Aenean congue arcu diam, tincidunt euismod ipsum rhoncus non. Proin in commodo arcu. In pretium enim ultricies, pretium lacus non, ultricies felis. Sed sed erat enim. Mauris bibendum sapien sapien, sed luctus est malesuada vel.
+
+Proin accumsan consequat sapien, vitae feugiat augue interdum in. Curabitur porta urna facilisis ipsum vehicula cursus. Morbi elementum sodales quam, vitae vestibulum tellus bibendum vel. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean consequat non ante quis pellentesque. Ut id neque non ex gravida sagittis eget eu mi. Nam pulvinar justo vel ex rutrum, et maximus justo hendrerit. Sed a dui id enim tristique volutpat. Aliquam erat volutpat. Nulla et quam est. Mauris non libero vehicula, dictum lectus in, tincidunt quam. Praesent sodales eros ipsum, sed iaculis elit laoreet id. Pellentesque interdum aliquam consequat. Fusce consequat ex vitae tellus ullamcorper, nec pharetra lectus ultrices.
+
+Sed aliquet massa nisi, ac scelerisque lectus vestibulum sed. Etiam condimentum enim libero, non tristique elit commodo at. Aliquam aliquam risus et aliquam finibus. Sed congue magna ut urna venenatis ornare. Fusce placerat tincidunt libero, sit amet vulputate nibh accumsan vitae. Morbi rhoncus ligula in quam iaculis aliquet. Nullam sed hendrerit ex. Pellentesque eu consequat dui, vitae rutrum nibh. Vestibulum in molestie elit. Donec elit turpis, congue et lacus ac, mattis pretium ligula. Nullam in nibh nibh.
+            </p>
+          </div>
+        </div>
+      <!-- </div> -->
+    </section>
+    <script src="vendor/js/underscore-min.js"></script>
+    <script src="vendor/js/jquery-3.1.1.min.js"></script>
+    <script src="vendor/js/backbone-min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
 </html>
