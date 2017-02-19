@@ -17,6 +17,28 @@ Set.prototype.equals = function(other) {
   return true;
 };
 
+const QuestionTypeModel = Backbone.Model.extend({
+  defaults: {
+    name: '',
+    enabled: true,
+  },
+  idAttribute: 'name'
+});
+
+const AppSettings = Backbone.Model.extend({
+  defaults: function() {
+    return {
+      words: new Set(),
+      totalQuestions: 0,
+      usedWords: 0,
+      generated: [],
+    };
+  },
+  initialize: function() {
+    this.questionTypes = new Backbone.Collection({model: QuestionTypeModel});
+  }
+});
+
 $(() => {
   const WordsView = Backbone.View.extend({
     events: {
@@ -43,43 +65,23 @@ $(() => {
   });
 
   const QuestionTypeView = Backbone.View.extend({
-    template: _.template($('#question-type-setting').html()),
-    initialize: function(options) {
-      this.questionType = options.questionType;
-    },
+    // TODO add check/uncheck event
+    template: Handlebars.compile($('#question-type-setting').html()),
     render: function() {
-      this.$el = $('<div>').append(this.template({
-        name: this.questionType.name
-      }));
+      this.$el = $('<div>').append(this.template(this.model.toJSON()));
       this.el = this.$el[0];
       return this;
     }
   });
 
-  const QuestionTypesView = Backbone.View.extend({
-    events: {
-      'input .slider': 'onSliderInput',
-    },
-    initialize: function(options) {
-      this.qtViews = [];
-      _.forEach(options.questionTypes, (qt) => {
-        let view = new QuestionTypeView(_.extend(options, {
-          questionType: qt
-        }));
-        this.$el.append(view.render().$el);
-        this.qtViews.push(view);
-      });
-    },
-    onSliderInput: function() {
-      console.log('sliderInput', arguments);
-    }
-  });
-
   const SettingsView = Backbone.View.extend({
     initialize: function(options) {
-      this.questionTypesView = new QuestionTypesView(_.extend(options, {
-        el: this.$('#question-types-container')[0]
-      }));
+      this.listenTo(this.model.questionTypes, 'add', this.addQuestionType);
+    },
+    addQuestionType: function(model) {
+      const view = new QuestionTypeView({model: model});
+      const el = this.$('#question-types-container');
+      el.append(view.render().el);
     }
   });
 
@@ -103,19 +105,6 @@ $(() => {
 
   const PreviewView = Backbone.View.extend({});
 
-  // FIXME back with local storage
-  const AppSettings = Backbone.Model.extend({
-    defaults: function() {
-      return {
-        words: new Set(),
-        questionGenerators: {},
-        totalQuestions: 0,
-        usedWords: 0,
-        generated: [],
-      };
-    }
-  });
-
   const AppView = Backbone.View.extend({
     initialize: function(options) {
       this.createView = new CreateView(_.extend(options, {
@@ -131,16 +120,9 @@ $(() => {
     }
   });
 
-  new AppView({
+  const app = new AppView({
     el: $('#app'),
     model: new AppSettings,
-    questionTypes: [
-      {
-        "name": "Word-to-definition",
-        "func": function() {
-          console.log("TODO add word func");
-        }
-      }
-    ],
   });
+  app.model.questionTypes.add({name: 'Foo'});
 });

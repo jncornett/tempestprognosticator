@@ -111,23 +111,20 @@ Sed aliquet massa nisi, ac scelerisque lectus vestibulum sed. Etiam condimentum 
         </div>
       <!-- </div> -->
     </section>
-    <script type="text/template" id="question-type-setting">
+    <script type="text/x-handlebars-template" id="question-type-setting">
       <p class="control">
         <label class="checkbox">
           <input type="checkbox">
-          <%= name %>
+          {{name}}
           [<a class="help-button" href="#">?</a>]
         </label>
-        <input
-          class="slider"
-          type="range" number
-          min="0" max="100" step="1"
-          value="50">
+        <!-- <input class="slider" type="range" number min="0" max="100" step="1" value="50"> -->
       </p>
     </script>
     <script src="vendor/js/underscore-min.js"></script>
     <script src="vendor/js/jquery-3.1.1.min.js"></script>
     <script src="vendor/js/backbone-min.js"></script>
+    <script src="vendor/js/handlebars.min-latest.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>
