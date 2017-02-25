@@ -10,7 +10,7 @@
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="vendor/css/bulma.min.css">
     <link rel="stylesheet" href="vendor/css/jquery.webui-popover.min.css">
-    <link rel="stylesheet" href="css/slider.css">
+    <link rel="stylesheet" href="app/css/slider.css">
   </head>
   <body>
     <section id="app" class="section">
@@ -108,13 +108,27 @@ Proin id tincidunt orci, ac posuere quam. Quisque vestibulum vulputate ex, ac pl
         [<a class="ctrl-help" href="#">?</a>]
       </p>
     </script>
-    <script src="vendor/js/underscore-min.js"></script>
-    <script src="vendor/js/jquery-3.1.1.min.js"></script>
-    <script src="vendor/js/backbone-min.js"></script>
-    <script src="vendor/js/handlebars.min-latest.js"></script>
-    <script src="vendor/js/jquery.webui-popover.min.js"></script>
-    <script src="js/dictionary.js"></script>
-    <script src="js/random.js"></script>
-    <script src="js/app.js"></script>
+    <script src="vendor/js/require.min.js"></script>
+    <script>
+      requirejs.config({
+        baseUrl: 'vendor/js',
+        paths: {
+          app: '../../app/js',
+        },
+        shim: {
+          backbone: {
+            deps: ['jquery', 'underscore'],
+            exports: 'Backbone'
+          },
+          underscore: {
+            exports: '_'
+          },
+          'jquery.webui-popover': {
+            deps: ['jquery']
+          }
+        }
+      });
+      requirejs(['app/main']);
+    </script>
   </body>
 </html>

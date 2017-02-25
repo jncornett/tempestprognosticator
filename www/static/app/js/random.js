@@ -14,6 +14,7 @@ const Random = (() => {
     }
   };
 
+  // FIXME inherited Array constructor has some unexpected 'features'. Override it.
   class DistBuilder extends Array {
     dist() {
       let sum = 0;
