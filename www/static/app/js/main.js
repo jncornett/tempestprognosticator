@@ -2,15 +2,15 @@
 
 define([
   'jquery',
-  'app/models',
   'app/dictionary',
+  'app/models/appsettings',
   'app/views/app',
   'jquery.webui-popover',
-], ($, models, dictionary, AppView) => {
+], ($, dictionary, AppSettings, AppView) => {
   $(() => {
     const app = new AppView({
       el: $('#app'),
-      model: new models.AppSettings,
+      model: new AppSettings,
       api: dictionary.FakeApi // FIXME will be replaced with 'real' API
     });
     app.model.questionTypes.add({
