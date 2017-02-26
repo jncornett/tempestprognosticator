@@ -31,10 +31,10 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
     return exportHTMLTemplate({questions: data});
   }
   const exportTextTemplate = Handlebars.compile(`{{#each questions}}
-{{oneIndex @index}}. {{title}}
-    {{info}}
+{{oneIndex @index}}. {{{title}}}
+    {{{info}}}
 {{#each choices}}
-  {{alphaIndex @index}}. {{.}}
+  {{alphaIndex @index}}. {{{.}}}
 {{/each}}
 
 {{/each}}`);
