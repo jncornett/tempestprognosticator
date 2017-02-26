@@ -36,5 +36,20 @@ define(['underscore', 'app/random'], (_, Random) => {
       return questions;
     }
 
-    return generateQuiz;
+    function renderQuiz(questionTypes, quiz) {
+      const questionMap = {};
+      for (const qt of questionTypes) {
+        questionMap[qt.name] = qt;
+      }
+      const out = [];
+      for (const q of quiz) {
+        out.push(questionMap[q.type].formatQuiz(q.data));
+      }
+      return out;
+    }
+
+    return {
+      generateQuiz,
+      renderQuiz
+    };
 });

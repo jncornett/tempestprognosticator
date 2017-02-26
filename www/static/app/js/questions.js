@@ -24,6 +24,12 @@ define(function() {
       let j = Math.floor(Math.random() * i);
       [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
+  };
+  function indexToLetter(i) {
+    if (!(i >= 0 && i < 26)) {
+      throw 'indexToLetter index out of range';
+    }
+    return String.fromCharCode('A'.charCodeAt(0) + i);
   }
   return [
     {
@@ -44,7 +50,12 @@ define(function() {
             answer: answerIndex
           }
         },
-        formatQuiz: function(question) { throw 'not implemented'; },
+        formatQuiz: function(question) {
+          return {
+            title: 'Define "' + question.question + '"',
+            choices: question.choices
+          };
+        },
         formatAnswerKey: function(question) { throw 'not implemented'; }
     },
     {
@@ -65,7 +76,13 @@ define(function() {
             answer: answerIndex
           }
         },
-        formatQuiz: function(question) { throw 'not implemented'; },
+        formatQuiz: function(question) {
+          return {
+            title: 'Which word more closely matches the following definition?',
+            info: question.question,
+            choices: question.choices
+          };
+        },
         formatAnswerKey: function(question) { throw 'not implemented'; }
     },
     {
@@ -87,7 +104,13 @@ define(function() {
             answer: answerIndex
           }
         },
-        formatQuiz: function(question) { throw 'not implemented'; },
+        formatQuiz: function(question) {
+          return {
+            title: 'Which word fits the following example sentence the best?',
+            info: question.question.replace(question.choices[question.answer], '________'),
+            choices: question.choices
+          };
+        },
         formatAnswerKey: function(question) { throw 'not implemented'; }
     }
   ];

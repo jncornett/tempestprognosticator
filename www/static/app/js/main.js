@@ -8,7 +8,7 @@ define([
   'app/models/appsettings',
   'app/views/app',
   'jquery.webui-popover',
-], ($, dictionary, questionTypes, exportTypes, AppSettings, AppView) => {
+], ($, dictionary, questionTypes, exports, AppSettings, AppView) => {
   $(() => {
     const app = new AppView({
       el: $('#app'),
@@ -18,7 +18,7 @@ define([
     for (const qt of questionTypes) {
       app.model.questionTypes.add(qt);
     }
-    for (const et of exportTypes) {
+    for (const et of exports.exportTypes) {
       app.model.exportTypes.add(et);
     }
   });

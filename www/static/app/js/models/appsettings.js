@@ -8,7 +8,7 @@ define([
   return Backbone.Model.extend({
     defaults: function() {
       return {
-        words: new Set(),
+        words: [],
         totalQuestions: 0,
         quiz: null,
       };
