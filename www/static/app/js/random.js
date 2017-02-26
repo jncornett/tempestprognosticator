@@ -1,6 +1,6 @@
 'use strict';
 
-const Random = (() => {
+define(function() {
   class Dist extends Array {
     next() {
       const n = Math.random();
@@ -48,4 +48,4 @@ const Random = (() => {
     Dist,
     Sample
   };
-})();
+});

@@ -1,19 +1,40 @@
-const generateQuiz = (function() {
+define(['underscore', 'app/random'], (_, Random) => {
     const defaultParams = {
         numQuestions: 20,
-        generators: [],
+        questionTypes: [],
     };
 
-    function generateQuiz(api, words, params) {
+    function generateQuiz(dict, words, params) {
+      params = _.extend({}, defaultParams, params);
       const sample = new Random.Sample(words);
-      const d = new Random.DistBuilder(types.map((x) => [x, 1])).dist();
-      const out = [];
-      for (const i = 0; i < n; i++) {
-        q = d.next();
-        out.push(q(api, sample));
+      const db = new Random.DistBuilder;
+      for (const qt of params.questionTypes) {
+        db.push([qt, 1]);
       }
-      return out;
+      const dist = db.dist();
+      const questions = [];
+      for (let i = 0; i < params.numQuestions; i++) {
+        const qt = dist.next();
+        if (sample.size < qt.minWords) {
+          console.log('out of words, stopping...');
+          break;
+        }
+        try {
+          const data = qt.generate(dict, sample);
+          if (data) {
+            questions.push({
+              type: qt.name,
+              data: data
+            });
+          } else {
+            console.log('generator for "' + qt.name + '" returned a null result');
+          }
+        } catch (err) {
+          console.log('generator for "' + qt.name + '" threw', err);
+        }
+      }
+      return questions;
     }
 
     return generateQuiz;
-})();
+});
