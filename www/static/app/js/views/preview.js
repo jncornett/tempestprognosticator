@@ -17,10 +17,13 @@ define(['backbone', 'app/quiz', 'app/exports'], (Backbone, Quiz, exports) => {
         clearTimeout(this.renderTimeout);
       }
       this.renderTimeout = setTimeout(() => {
+        // FIXME add a loading icon
         if (this.model.get('words').length == 0) {
           this.$('#preview').html('<p>Add some words to get started</p>');
           return;
         }
+        // Prefetch using server side API b/c; It's easier to parallelize the requests on the server
+        this.api.preload(this.model.get('words'));
         const quiz = Quiz.generateQuiz(this.api, this.model.get('words'), {
           numQuestions: this.model.get('totalQuestions'),
           questionTypes: this.model.questionTypes.where({enabled: true}).map(m => m.toJSON())

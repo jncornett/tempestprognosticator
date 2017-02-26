@@ -10,7 +10,9 @@ import (
 )
 
 type Entry struct {
-	Name, Definition, Example string
+	Name       string `json:"word"`
+	Definition string `json:"definition"`
+	Example    string `json:"example"`
 }
 
 type WordnikService struct {

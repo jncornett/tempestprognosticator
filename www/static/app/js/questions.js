@@ -25,12 +25,6 @@ define(function() {
       [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
   };
-  function indexToLetter(i) {
-    if (!(i >= 0 && i < 26)) {
-      throw 'indexToLetter index out of range';
-    }
-    return String.fromCharCode('A'.charCodeAt(0) + i);
-  }
   return [
     {
         name: 'Multiple Choice, Word-to-definition',
@@ -38,12 +32,14 @@ define(function() {
         minWords: 4,
         generate: function (dict, words) {
           const data = getWords(dict, words, this.minWords);
+          console.log('getWords data', data);
           if (!data) {
             console.log('failed to fetch words');
             return;
           }
           shuffle(data);
           const answerIndex = Math.floor(Math.random() * data.length);
+          console.log('answerIndex', answerIndex);
           return {
             question: data[answerIndex].word,
             choices: data.map(d => d.definition),

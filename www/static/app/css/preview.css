@@ -4,3 +4,6 @@
 #preview blockquote {
   margin: 1em;
 }
+#preview ol {
+  margin-bottom: 1em;
+}

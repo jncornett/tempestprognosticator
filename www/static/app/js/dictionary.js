@@ -1,31 +1,52 @@
 define(() => {
-  class DictionaryApi {
+  function synchronousGet(url, json) {
+    let result;
+    $.ajax({
+      url: url,
+      type: 'post',
+      async: false,
+      dataType: 'json',
+      data: JSON.stringify(json),
+      contentType: "application/json; charset=utf-8",
+      success: (data) => {
+        console.log('received data', data);
+        result = data;
+      }
+    });
+    return result;
+  }
+  class Api {
     constructor(preload) {
-      this.cache = preload
+      this.cache = preload || {};
     }
     lookupWord(word) {
       let data = this.cache[word];
       if (data) {
-        return Promises.resolve(data);
+        return data;
       }
-      return this.fetchWord(word).then((d) => {
-        this.cache[word] = d;
-      });
+      const result = synchronousGet('wordnik/' + encodeURIComponent(word), null);
+      if (result) {
+        this.cache[word] = result;
+      }
+      return result;
     }
     preload(words) {
-      const promises = [];
+      const needed = [];
       for (const w of words) {
-        promises.push(this.fetchWord(w));
+        if (!(w in this.cache)) {
+          needed.push(w);
+        }
       }
-      Promises.all(promises);
-    }
-    fetchWord(word) {
-      console.log('fetchword', word);
-      return fetch('wordnik/' + word).then((resp) => resp.json());
+      const result = synchronousGet('wordnikPreload', needed);
+      if (result) {
+        for (const w of result) {
+          this.cache[w.name] = w
+        }
+      }
     }
   };
 
-  const FakeApi = new DictionaryApi({
+  const FakeApi = new Api({
     tempest: {
       word: 'tempest',
       definition: 'a violent windy storm.',
@@ -49,7 +70,7 @@ define(() => {
   });
 
   return {
-    DictionaryApi,
+    Api,
     FakeApi
   };
 });

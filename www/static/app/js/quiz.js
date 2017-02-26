@@ -1,3 +1,5 @@
+'use strict';
+
 define(['underscore', 'app/random'], (_, Random) => {
     const defaultParams = {
         numQuestions: 20,
@@ -21,6 +23,7 @@ define(['underscore', 'app/random'], (_, Random) => {
         }
         try {
           const data = qt.generate(dict, sample);
+          console.log(qt.name, data);
           if (data) {
             questions.push({
               type: qt.name,

@@ -13,7 +13,7 @@ define([
     const app = new AppView({
       el: $('#app'),
       model: new AppSettings,
-      api: dictionary.FakeApi // FIXME will be replaced with 'real' API
+      api: new dictionary.Api
     });
     for (const qt of questionTypes) {
       app.model.questionTypes.add(qt);

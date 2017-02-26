@@ -1,11 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	_ "expvar"
 	"flag"
 	"log"
 	"net/http"
 	"os"
+	"sync"
 )
 
 const (
@@ -35,6 +37,41 @@ func main() {
 	wordnikService := NewWordnikService(WordnikURL, *wordnikAPIKey)
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(*root))))
 	http.Handle("/wordnik/", http.StripPrefix("/wordnik/", wordnikService))
+	http.HandleFunc("/wordnikPreload", func(w http.ResponseWriter, r *http.Request) {
+		var words []string
+		if err := json.NewDecoder(r.Body).Decode(&words); err != nil {
+			log.Println("/wordnikPreload", "Could not decode words array:", err)
+			http.Error(w, "BAD REQUEST", http.StatusBadRequest)
+			return
+		}
+		var (
+			mux     sync.Mutex
+			entries []Entry
+		)
+		sem := make(chan interface{}, len(words))
+		for _, word := range words {
+			word := word
+			go func() {
+				entry, err := wordnikService.Lookup(word)
+				if err != nil {
+					log.Printf("Lookup %q error: %v\n", word, err)
+				} else if entry == nil {
+					log.Printf("Lookup %q returned nil", word)
+				} else {
+					mux.Lock()
+					entries = append(entries, *entry)
+					mux.Unlock()
+				}
+				sem <- nil
+			}()
+		}
+		for i := 0; i < len(words); i++ {
+			<-sem // Wait for all words to return
+		}
+		if err := json.NewEncoder(w).Encode(entries); err != nil {
+			http.Error(w, "", http.StatusInternalServerError)
+		}
+	})
 	log.Fatal(http.ListenAndServe(":"+*port, nil))
 }
 
