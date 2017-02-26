@@ -4,7 +4,24 @@ define(() => {
       this.cache = preload
     }
     lookupWord(word) {
-      return this.cache[word];
+      let data = this.cache[word];
+      if (data) {
+        return Promises.resolve(data);
+      }
+      return this.fetchWord(word).then((d) => {
+        this.cache[word] = d;
+      });
+    }
+    preload(words) {
+      const promises = [];
+      for (const w of words) {
+        promises.push(this.fetchWord(w));
+      }
+      Promises.all(promises);
+    }
+    fetchWord(word) {
+      console.log('fetchword', word);
+      return fetch('wordnik/' + word).then((resp) => resp.json());
     }
   };
 
