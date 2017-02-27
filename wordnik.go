@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"path"
 	"strconv"
+	"strings"
 )
 
 type Entry struct {
@@ -51,16 +52,18 @@ func (s *WordnikService) Lookup(word string) (*Entry, error) {
 	}
 	entry.Name = word
 	var err error
-	if entry.Definition, err = s.lookupDefinition(word); err != nil {
+	lower := strings.Lower(word)
+	if entry.Definition, err = s.lookupDefinition(lower); err != nil {
 		return nil, err
 	}
-	if entry.Example, err = s.lookupExample(word); err != nil {
+	if entry.Example, err = s.lookupExample(lower); err != nil {
 		return nil, err
 	}
 	if entry.Definition == "" && entry.Example == "" {
 		return nil, nil
 	}
 	s.cache[word] = entry
+	s.cache[lower] = entry
 	return &entry, nil
 }
 
