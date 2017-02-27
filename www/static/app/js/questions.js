@@ -35,7 +35,7 @@ define(['app/random'], function(Random) {
         minWords: 4,
         generate: function (dict, words) {
           // FIXME 'minWords' should be 'numChoices'
-          const choices = getWords(dict, words, self.minWords);
+          const choices = getWords(dict, words, this.minWords);
           if (!choices) {
             console.log('failed to fetch words');
             return

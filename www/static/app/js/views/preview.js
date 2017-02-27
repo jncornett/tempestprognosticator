@@ -2,7 +2,7 @@
 
 define(['backbone', 'app/quiz', 'app/exports'], (Backbone, Quiz, exports) => {
   // Prevents unnecessary re-rendering while the user is changing settings
-  const renderTimeoutMs = 1000;
+  const renderTimeoutMs = 500;
   return Backbone.View.extend({
     initialize: function(options) {
       this.listenTo(this.model, 'change:words', this.render);
