@@ -52,7 +52,7 @@ func (s *WordnikService) Lookup(word string) (*Entry, error) {
 	}
 	entry.Name = word
 	var err error
-	lower := strings.Lower(word)
+	lower := strings.ToLower(word)
 	if entry.Definition, err = s.lookupDefinition(lower); err != nil {
 		return nil, err
 	}
