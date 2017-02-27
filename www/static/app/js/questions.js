@@ -25,42 +25,35 @@ define(['app/random'], function(Random) {
       [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
   };
+  function escapeRegexp(s) {
+    return s.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	};
   return [
     {
         name: 'Multiple Choice, Word-to-definition',
         help: '',
         minWords: 4,
         generate: function (dict, words) {
-          const answer = getWords(dict, words, 1);
-          if (!answer) {
-            console.log('failed to fetch answer word');
+          // FIXME 'minWords' should be 'numChoices'
+          const choices = getWords(dict, words, self.minWords);
+          if (!choices) {
+            console.log('failed to fetch words');
+            return
           }
-          const otherChoices = getWords(dict, words, this.minWords - 1); // FIXME 'minWords' should be 'numChoices'
-          if (!otherChoices) {
-            console.log('failed to fetch other choice words');
-          }
-          console.log('fetch words:', answer, otherChoices);
-          allChoices = [answer].concat(otherChoices);
-          shuffle(allChoices);
-          let answerIndex = -1;
-          // Find the index of the correct answer, post shuffling:
-          for (let i = 0; i < allChoices.length; i++) {
-            if (allChoices[i].word == answer.word) {
-              answerIndex = i;
-              break;
+          console.log('fetched words', choices);
+          const answerIndex = Math.floor(Math.random()*choices.length);
+          shuffle(choices);
+          // 'give back' the words that aren't the answer
+          for (let i = 0; i < choices.length; i++) {
+            if (i != answerIndex) {
+              words.add(choices[i].word);
             }
           }
-          console.log('answerIndex', answerIndex);
-          // Now add back all non-answer choices so they can be reused
-          // FIXME this is a kind-of-dirty hack
-          for (const c of otherChoices) {
-            words.add(c);
-          }
           return {
-            question: answer.word,
-            choices: allChoices.map(d => d.definition),
+            question: choices[answerIndex].word,
+            choices: choices.map(d => d.definition),
             answer: answerIndex
-          }
+          };
         },
         formatQuiz: function(question) {
           return {
@@ -75,18 +68,25 @@ define(['app/random'], function(Random) {
         help: '',
         minWords: 4,
         generate: function (dict, words) {
-          const data = getWords(dict, words, this.minWords);
-          if (!data) {
+          const choices = getWords(dict, words, this.minWords);
+          if (!choices) {
             console.log('failed to fetch words');
-            return;
+            return
           }
-          shuffle(data);
-          const answerIndex = Math.floor(Math.random() * data.length);
+          console.log('fetched words', choices);
+          const answerIndex = Math.floor(Math.random()*choices.length);
+          shuffle(choices);
+          // 'give back' the words that aren't the answer
+          for (let i = 0; i < choices.length; i++) {
+            if (i != answerIndex) {
+              words.add(choices[i].word);
+            }
+          }
           return {
-            question: data[answerIndex].definition,
-            choices: data.map(d => d.word),
+            question: choices[answerIndex].definition,
+            choices: choices.map(d => d.word),
             answer: answerIndex
-          }
+          };
         },
         formatQuiz: function(question) {
           return {
@@ -102,24 +102,36 @@ define(['app/random'], function(Random) {
         help: '',
         minWords: 4,
         generate: function (dict, words) {
-          const data = getWords(dict, words, this.minWords);
-          if (!data) {
+          const choices = getWords(dict, words, this.minWords);
+          if (!choices) {
             console.log('failed to fetch words');
             return;
           }
-          shuffle(data);
-          const answerIndex = Math.floor(Math.random() * data.length);
+          console.log('fetched words', choices);
+          const answerIndex = Math.floor(Math.random()*choices.length);
+          shuffle(choices);
+          // 'give back' the words that aren't the answer
+          for (let i = 0; i < choices.length; i++) {
+            if (i != answerIndex) {
+              words.add(choices[i].word);
+            }
+          }
           return {
             // Don't forget to sanitize the word out!
-            question: data[answerIndex].example,
-            choices: data.map(d => d.word),
+            question: choices[answerIndex].example,
+            choices: choices.map(d => d.word),
             answer: answerIndex
-          }
+          };
         },
         formatQuiz: function(question) {
+					const toReplace = new RegExp(
+						'\\b' + escapeRegexp(question.choices[question.answer]) + '\\b',
+						'ig'
+					);
+          const info = question.question.replace(toReplace, '________');
           return {
             title: 'Which word fits the following example sentence the best?',
-            info: question.question.replace(question.choices[question.answer], '________'),
+            info: info,
             choices: question.choices
           };
         },
