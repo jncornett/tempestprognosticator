@@ -1,6 +1,6 @@
 'use strict';
 
-define(function() {
+define(['app/random'], function(Random) {
   // getWords retrieves all the (needed) words safely
   function getWords(dict, words, n) {
     const rollback = [];
@@ -31,18 +31,34 @@ define(function() {
         help: '',
         minWords: 4,
         generate: function (dict, words) {
-          const data = getWords(dict, words, this.minWords);
-          console.log('getWords data', data);
-          if (!data) {
-            console.log('failed to fetch words');
-            return;
+          const answer = getWords(dict, words, 1);
+          if (!answer) {
+            console.log('failed to fetch answer word');
           }
-          shuffle(data);
-          const answerIndex = Math.floor(Math.random() * data.length);
+          const otherChoices = getWords(dict, words, this.minWords - 1); // FIXME 'minWords' should be 'numChoices'
+          if (!otherChoices) {
+            console.log('failed to fetch other choice words');
+          }
+          console.log('fetch words:', answer, otherChoices);
+          allChoices = [answer].concat(otherChoices);
+          shuffle(allChoices);
+          let answerIndex = -1;
+          // Find the index of the correct answer, post shuffling:
+          for (let i = 0; i < allChoices.length; i++) {
+            if (allChoices[i].word == answer.word) {
+              answerIndex = i;
+              break;
+            }
+          }
           console.log('answerIndex', answerIndex);
+          // Now add back all non-answer choices so they can be reused
+          // FIXME this is a kind-of-dirty hack
+          for (const c of otherChoices) {
+            words.add(c);
+          }
           return {
-            question: data[answerIndex].word,
-            choices: data.map(d => d.definition),
+            question: answer.word,
+            choices: allChoices.map(d => d.definition),
             answer: answerIndex
           }
         },
