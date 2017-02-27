@@ -89,6 +89,7 @@ func (s *WordnikService) lookupDefinition(word string) (string, error) {
 	if err = json.NewDecoder(resp.Body).Decode(&def); err != nil {
 		return "", err
 	}
+	log.Println("Definitions of", word, ":", def)
 	if len(def) < 1 {
 		return "", nil
 	}
@@ -117,6 +118,7 @@ func (s *WordnikService) lookupExample(word string) (string, error) {
 	if err := json.NewDecoder(resp.Body).Decode(&ex); err != nil {
 		return "", err
 	}
+	log.Println("Example for", word, ":", ex)
 	return ex.Text, nil
 }
 
